@@ -1,10 +1,48 @@
 #! /usr/bin/env python3
 # coding: utf-8
+import pygame
 import random
+import pygame_test
 PATH_CHAR = '.'
 HERO_CHAR = 'S'
 GUARD_CHAR = 'E'
 WALL_CHAR = '#'
+
+class ViewPyGame:
+    def __init__(self):
+        pygame.init()
+        self.size = 750 , 750
+        self.screen = pygame.display.set_mode(self.size)
+        self.images = {
+        PATH_CHAR : 'data/ressources/floor-tiles-20x20.png',
+        HERO_CHAR: 'data/ressources/MacGyver.png',
+        GUARD_CHAR: 'data/ressources/Gardien.png',
+        WALL_CHAR: 'data/ressources/structures.png',
+        '1': 'data/ressources/ether.png',
+        '2': 'data/ressources/aiguille.png',
+        '3': 'data/ressources/seringue.png',
+        '4': 'data/ressources/tube_plastique.png'}
+        self.load_images()
+    def load_images(self):
+        for key in self.images:
+            self.images[key] =pygame.image.load(self.images[key])
+            if key == PATH_CHAR:
+                new_img = pygame.Surface((20,20))
+                new_img.blit(self.images[key],(0, 0),(0, 0,20, 20))
+                self.images[key] = new_img
+            elif key == WALL_CHAR:
+                new_img = pygame.Surface((20,20))
+                new_img.blit(self.images[key],(0, 0),(20, 40,20, 20))
+                self.images[key] = new_img
+        self.resize_images()
+    def resize_images(self):
+        for key in self.images:
+            self.images[key] = pygame.transform.scale(self.images[key],(50, 50))
+    def show_maze(self, map):
+        #self.screen.fill(BLACK)
+        for y in range(0,15):
+            for x in range(0,15):
+                self.screen.blit(self.images[map[x][y]], (y*50, x*50))
 
 class Hero:
     def __init__(self, position):
@@ -60,12 +98,14 @@ class Maze:
         ''' Method that transform the file as a two dimensional array of char'''
         with open(self.filename) as file:
             self._map = [[c for c in list(line) if c != '\n'] for line in file]
-    def __repr__(self):
+    @property
+    def copy(self):
         """Method that create a string of the map for consol view"""
-        s = str()
+        '''s = str()
         for line in self._map:
-            s = s + (''.join(line) + '\n')
-        return s
+            s = s + (''.join(line) + '\n')'''
+
+        return self._map.copy()
 class ControllerMacGyver:
     def __init__(self, map, hero):
         self.map = map
@@ -85,9 +125,14 @@ class ControllerMacGyver:
 def main():
     map = Maze("maps/map-01.txt")
     hero = Hero(map.get_position_of('S'))
-    controller = ControllerMacGyver(map, hero)
+    #controller = ControllerMacGyver(map, hero)
     #print(map.get_position_of(']'))
-    print(map)
+    view = ViewPyGame()
+    view.show_maze(map.copy)
+    pygame.display.flip()
+    while 1:
+        for event in pygame.event.get():
+            if event.type == pygame.QUIT: sys.exit()
 
 if __name__ == '__main__':
     main()
