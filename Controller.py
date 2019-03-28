@@ -10,7 +10,7 @@ PATH_CHAR = '.'
 HERO_CHAR = 'S'
 GUARD_CHAR = 'E'
 WALL_CHAR = '#'
-ITEMS_CHARS = ('1', '2', '3', '4')
+ITEMS_CHARS = ('1', '2', '3')
 KEY_DOWN_VAlID = (pygame.K_UP, pygame.K_DOWN, pygame.K_RIGHT, pygame.K_LEFT)
 
 class ControllerMacGyver:
@@ -23,7 +23,7 @@ class ControllerMacGyver:
         self.view.show_maze(self.map.copy)
     def items_initialize(self):
         '''Fonction that place the 4 items randomly in the map on the floor
-        as a char from '1' to '4' '''
+        as a char from '1' to '3' '''
         nb_of_items = 3
         while nb_of_items > 0:
             p = m.Position(random.randint(0, 14), random.randint(0, 14))
@@ -75,7 +75,7 @@ class ControllerMacGyver:
         while state not in (3, 4):
             event = self.view.wait_event_keydown_within(KEY_DOWN_VAlID)
             if event == "QUIT":
-                self.view.end_screen()
+                self.view.end_pygame()
                 exit()
             elif event == pygame.K_UP:
                 state = self.check_move(self.hero.position.up())
@@ -91,16 +91,16 @@ class ControllerMacGyver:
             self.view.gameover()
         self.view.end_screen_event()
 def main():
-    '''Main loop of the game, it will replay the game until n is pressed on the end screen'''
+    '''Replay loop of the game, it will restart the game until n is pressed on the end screen'''
     while 1:
-        '''Initialising the four main classes of the program'''
+        '''Initialising the four main objects of the program'''
         map = m.Maze("data/maps/map-01.txt")
         hero = m.Hero(map.get_position_of(HERO_CHAR))
         view = v.ViewPyGame()
         controller = ControllerMacGyver(map, hero, view)
-        '''launching the event game loop'''
+        '''launching the game loop'''
         controller.get_event()
-        '''In the case of a replay, we first del every objects'''
+        '''Before restarting, we del every objects'''
         del map,hero,view,controller
 
 if __name__ == '__main__':

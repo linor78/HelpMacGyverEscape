@@ -34,7 +34,8 @@ class ViewPyGame:
         '''Method who load the images of the dict 'self.images' and then resize them '''
         for key in self.images:
             self.images[key] =pygame.image.load(self.images[key])
-            '''Both the PATH_CHAR and WALL_CHAR images are sprites and need the use of the AREA argument of blit to choose the right texture'''
+            '''Both the PATH_CHAR and WALL_CHAR images are sprites and need the
+            use of the AREA argument of blit to choose the right texture'''
             if key == PATH_CHAR:
                 new_img = pygame.Surface((20,20))
                 new_img.blit(self.images[key],(0, 0),(0, 0,20, 20))
@@ -56,33 +57,15 @@ class ViewPyGame:
         for y in range(0,15):
             for x in range(0,15):
                 self.screen.blit(self.images[map[y][x]], (x*CASE_SIZE, y*CASE_SIZE))
-        #self.screen.blit((self.images['inventory']),(0, 15 * CASE_SIZE,15 * CASE_SIZE, INVENTORY_HEIGHT))
         self.show_inventory()
         pygame.display.flip()
     def show_inventory(self):
         '''method who put the inventory bar on teh screen, used both a the start of the game and when the 3 items are found'''
         self.screen.blit((self.images['inventory']),(0, 15 * CASE_SIZE,15 * CASE_SIZE, INVENTORY_HEIGHT))
-    def wait_event_keydown_within(self,list_of_key):
-        '''Method that wait for an event to occur and then return the event '''
-        while 1:
-            for event in pygame.event.get():
-                if event.type == pygame.QUIT:
-                    return "QUIT"
-                elif event.type == pygame.KEYDOWN:
-                    if event.key in list_of_key :
-                        return event.key
     def add_items_to_inventory(self, char, index_of_item):
         '''Method who add to the inventory the image of the item the hero just picked up'''
         self.screen.blit(self.images[char],((index_of_item * CASE_SIZE) + 100, 15.1 * CASE_SIZE))
         pygame.display.flip()
-    def end_screen_event(self):
-        '''Method who wait for either 'y' or 'n' key to be pressed and exit the program if 'n' is pressed'''
-        event = self.wait_event_keydown_within((pygame.K_y, pygame.K_n))
-        if event == pygame.K_y:
-            pass
-        else:
-            self.end_screen()
-            exit()
     def update_hero_position(self, oldpos, newpos):
         '''Method that update the 2 zones of the screen who changed'''
         ox, oy = oldpos.position
@@ -94,7 +77,24 @@ class ViewPyGame:
         '''Updating only the two rectangles we changed'''
         pygame.display.update(((ox * CASE_SIZE, oy * CASE_SIZE, CASE_SIZE, CASE_SIZE),
         (nx * CASE_SIZE, ny * CASE_SIZE, CASE_SIZE, CASE_SIZE)))
-    def end_screen(self):
+    def wait_event_keydown_within(self,list_of_key):
+        '''Method that wait for an event to occur and then return the event '''
+        while 1:
+            for event in pygame.event.get():
+                if event.type == pygame.QUIT:
+                    return "QUIT"
+                elif event.type == pygame.KEYDOWN:
+                    if event.key in list_of_key :
+                        return event.key
+    def end_screen_event(self):
+        '''Method who wait for either 'y' or 'n' key to be pressed and exit the program if 'n' is pressed'''
+        event = self.wait_event_keydown_within((pygame.K_y, pygame.K_n))
+        if event == pygame.K_y:
+            pass
+        else:
+            self.end_pygame()
+            exit()
+    def end_pygame(self):
         """Method that shutdown all pygames modules"""
         pygame.quit()
     def victory(self):

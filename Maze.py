@@ -16,8 +16,6 @@ class Position:
     '''class who contain a position as a tuple (x, y)'''
     def __init__(self,x,y):
         self.position = (x, y)
-    def __repr__(self):
-        return str(self.position)
     def up(self):
         x, y = self.position
         return Position(x, y-1)
@@ -42,7 +40,7 @@ class Maze:
         x, y = position.position
         return self._map[y][x]
     def get_position_of(self,char):
-        ''' Method that return the indexes fo the first ocurrence of the
+        ''' Method that return the indexes of the first ocurrence of the
         char in the map as a Position'''
         for i, line in enumerate(self._map):
             if char in self._map[i]:
