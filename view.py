@@ -25,9 +25,10 @@ class ViewPyGame:
         GUARD_CHAR: 'data/ressources/Gardien.png',
         WALL_CHAR: 'data/ressources/structures.png',
         '1': 'data/ressources/ether.png',
-        '2': 'data/ressources/seringue.png',
+        '2': 'data/ressources/aiguille.png',
         '3': 'data/ressources/tube_plastique.png',
-        'inventory': 'data/ressources/inventory.png'}
+        'inventory': 'data/ressources/inventory.png',
+        'crafted': 'data/ressources/seringue.png'}
         self.load_images()
     def load_images(self):
         '''Method who load the images of the dict 'self.images' and then resize them '''
@@ -55,8 +56,12 @@ class ViewPyGame:
         for y in range(0,15):
             for x in range(0,15):
                 self.screen.blit(self.images[map[y][x]], (x*CASE_SIZE, y*CASE_SIZE))
-        self.screen.blit((self.images['inventory']),(0, 15 * CASE_SIZE,15 * CASE_SIZE, INVENTORY_HEIGHT))
+        #self.screen.blit((self.images['inventory']),(0, 15 * CASE_SIZE,15 * CASE_SIZE, INVENTORY_HEIGHT))
+        self.show_inventory()
         pygame.display.flip()
+    def show_inventory(self):
+        '''method who put the inventory bar on teh screen, used both a the start of the game and when the 3 items are found'''
+        self.screen.blit((self.images['inventory']),(0, 15 * CASE_SIZE,15 * CASE_SIZE, INVENTORY_HEIGHT))
     def wait_event_keydown_within(self,list_of_key):
         '''Method that wait for an event to occur and then return the event '''
         while 1:

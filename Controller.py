@@ -47,6 +47,10 @@ class ControllerMacGyver:
         elif char in ITEMS_CHARS:
             self.hero.item_found()
             self.view.add_items_to_inventory(char, self.hero.items_count)
+            '''If the 3 items are found by the hero, we remove the 3 items and put the crafted one instead'''
+            if self.hero.items_count == 3 :
+                self.view.show_inventory()
+                self.view.add_items_to_inventory('crafted',2)
             return 1
         elif char == WALL_CHAR:
             return 0
