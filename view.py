@@ -60,7 +60,7 @@ class ViewPyGame:
         self.show_inventory()
         pygame.display.flip()
     def show_inventory(self):
-        '''method who put the inventory bar on teh screen, used both a the start of the game and when the 3 items are found'''
+        '''method who put the inventory bar on the screen, used both a the start of the game and when the 3 items are found'''
         self.screen.blit((self.images['inventory']),(0, 15 * CASE_SIZE,15 * CASE_SIZE, INVENTORY_HEIGHT))
     def add_items_to_inventory(self, char, index_of_item):
         '''Method who add to the inventory the image of the item the hero just picked up'''

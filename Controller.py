@@ -22,7 +22,7 @@ class ControllerMacGyver:
         self.items_initialize()
         self.view.show_maze(self.map.copy)
     def items_initialize(self):
-        '''Fonction that place the 4 items randomly in the map on the floor
+        '''Fonction that place the 3 items randomly in the map on the floor
         as a char from '1' to '3' '''
         nb_of_items = 3
         while nb_of_items > 0:
