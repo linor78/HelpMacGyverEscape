@@ -51,7 +51,8 @@ class Maze:
         x, y = position.position
         self._map[y][x] = char
     def load_file(self):
-        ''' Method that transform the file into a two dimensional array of char'''
+        ''' Method that transform the file into a two dimensional
+         array of char'''
         with open(self.filename) as file:
             self._map = [[c for c in list(line) if c != '\n'] for line in file]
     @property

@@ -14,7 +14,8 @@ ITEMS_CHARS = ('1', '2', '3')
 KEY_DOWN_VAlID = (pygame.K_UP, pygame.K_DOWN, pygame.K_RIGHT, pygame.K_LEFT)
 
 class ControllerMacGyver:
-    '''Class who will contain the rules of the game and who will interact with the other classes'''
+    '''Class who will contain the rules of the game
+    and who will interact with the other classes'''
     def __init__(self, map, hero, view):
         self.map = map
         self.hero = hero
@@ -38,7 +39,8 @@ class ControllerMacGyver:
         else :
             return 0
     def is_valid_case(self, pos):
-        '''Method who check if the move is in the map and valid and then return the state of the game '''
+        '''Method who check if the move is in the map and valid and
+         then return the state of the game '''
         if self.is_within(pos) == 0:
             return 0
         char = self.map.get_char(pos)
@@ -47,7 +49,8 @@ class ControllerMacGyver:
         elif char in ITEMS_CHARS:
             self.hero.item_found()
             self.view.add_items_to_inventory(char, self.hero.items_count)
-            '''If the 3 items are found by the hero, we remove the 3 items and put the crafted one instead'''
+            '''If the 3 items are found by the hero, we remove the 3 items
+            and put the crafted one instead'''
             if self.hero.items_count == 3 :
                 self.view.show_inventory()
                 self.view.add_items_to_inventory('crafted',2)
@@ -66,12 +69,14 @@ class ControllerMacGyver:
             self.view.update_hero_position(self.hero.position, newpos)
             self.map.set_char_to_indexes(PATH_CHAR,self.hero.position)
             self.map.set_char_to_indexes(HERO_CHAR, newpos)
-            self.hero.position = newpos
+            self.hero.move(newpos)
         return state
     def get_event(self):
-        '''Event loop who will wait for an event and move accordingly until either victory or gameover'''
+        '''Event loop who will wait for an event and move accordingly until
+         either victory or gameover'''
         state = 0
-        '''state being at 3 mean victory and it being at 4 mean gameover , any other state let the game continue'''
+        '''state being at 3 mean victory and it being at 4 mean gameover
+        , any other state let the game continue'''
         while state not in (3, 4):
             event = self.view.wait_event_keydown_within(KEY_DOWN_VAlID)
             if event == "QUIT":
@@ -91,7 +96,8 @@ class ControllerMacGyver:
             self.view.gameover()
         self.view.end_screen_event()
 def main():
-    '''Replay loop of the game, it will restart the game until n is pressed on the end screen'''
+    '''Replay loop of the game, it will restart the game until n is pressed
+    on the end screen'''
     while 1:
         '''Initialising the four main objects of the program'''
         map = m.Maze("data/maps/map-01.txt")
